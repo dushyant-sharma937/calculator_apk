@@ -1,4 +1,4 @@
-import 'dart:math';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
 import 'colors.dart';
@@ -35,6 +35,7 @@ class _CalculatorAppState extends State<CalculatorApp> {
   var outputSize = 34.0;
   bool hideInput = false;
   var outputOpacity = 0.7;
+  bool lightTheme = false;
 
   onButtonPressed(value) {
     if (value == 'C') {
@@ -74,99 +75,189 @@ class _CalculatorAppState extends State<CalculatorApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(25, 25, 25, 1),
-      body: Column(children: [
-        Expanded(
-          child: Container(
-            margin: const EdgeInsetsDirectional.only(bottom: 30),
-            width: double.infinity,
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.end,
+      backgroundColor: lightTheme
+          ? const Color.fromARGB(255, 225, 225, 225)
+          : const Color.fromRGBO(25, 25, 25, 1),
+      body: SafeArea(
+        child: Column(children: [
+          Row(
+            children: [
+              IconButton(
+                  onPressed: () {
+                    setState(() {
+                      lightTheme = !lightTheme;
+                    });
+                  },
+                  icon: lightTheme
+                      ? const Icon(
+                          CupertinoIcons.sun_max_fill,
+                          color: Color.fromARGB(255, 109, 109, 109),
+                          size: 32,
+                        )
+                      : const Icon(
+                          CupertinoIcons.sun_max_fill,
+                          color: Color.fromARGB(207, 217, 217, 217),
+                          size: 32,
+                        )),
+            ],
+          ),
+          Expanded(
+            child: Container(
+              margin: const EdgeInsetsDirectional.only(bottom: 30),
+              width: double.infinity,
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    hideInput ? "" : input,
+                    style: TextStyle(
+                        fontSize: 48,
+                        color: lightTheme ? Colors.black : Colors.white),
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  Text(
+                    output,
+                    style: TextStyle(
+                        fontSize: outputSize,
+                        color: lightTheme
+                            ? Colors.black.withOpacity(outputOpacity)
+                            : Colors.white.withOpacity(outputOpacity)),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  )
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Row(
               children: [
-                Text(
-                  hideInput ? "" : input,
-                  style: const TextStyle(fontSize: 48, color: Colors.white),
-                ),
-                const SizedBox(
-                  height: 50,
-                ),
-                Text(
-                  output,
-                  style: TextStyle(
-                      fontSize: outputSize,
-                      color: Colors.white.withOpacity(outputOpacity)),
-                ),
-                const SizedBox(
-                  height: 30,
-                )
+                normalbutton(
+                    text: 'C',
+                    tColor: highlightColor,
+                    buttonBgColor:
+                        lightTheme ? operatorColorLt : operatorColor),
+                normalbutton(
+                    text: '%',
+                    tColor: highlightColor,
+                    buttonBgColor:
+                        lightTheme ? operatorColorLt : operatorColor),
+                normalbutton(
+                    text: '⌫',
+                    tColor: highlightColor,
+                    buttonBgColor:
+                        lightTheme ? operatorColorLt : operatorColor),
+                normalbutton(
+                    text: '÷',
+                    tColor: highlightColor,
+                    buttonBgColor:
+                        lightTheme ? operatorColorLt : operatorColor),
               ],
             ),
           ),
-        ),
-        Row(
-          children: [
-            normalbutton(
-                text: 'C',
-                tColor: highlightColor,
-                buttonBgColor: operatorColor),
-            normalbutton(
-                text: '%',
-                tColor: highlightColor,
-                buttonBgColor: operatorColor),
-            normalbutton(
-                text: '⌫',
-                tColor: highlightColor,
-                buttonBgColor: operatorColor),
-            normalbutton(
-                text: '÷',
-                tColor: highlightColor,
-                buttonBgColor: operatorColor),
-          ],
-        ),
-        Row(
-          children: [
-            normalbutton(text: 7),
-            normalbutton(text: 8),
-            normalbutton(text: 9),
-            normalbutton(
-                text: '×',
-                tColor: highlightColor,
-                buttonBgColor: operatorColor),
-          ],
-        ),
-        Row(
-          children: [
-            normalbutton(text: 4),
-            normalbutton(text: 5),
-            normalbutton(text: 6),
-            normalbutton(
-                text: '-',
-                tColor: highlightColor,
-                buttonBgColor: operatorColor),
-          ],
-        ),
-        Row(
-          children: [
-            normalbutton(text: 1),
-            normalbutton(text: 2),
-            normalbutton(text: 3),
-            normalbutton(
-                text: '+',
-                tColor: highlightColor,
-                buttonBgColor: operatorColor),
-          ],
-        ),
-        Row(
-          children: [
-            normalbutton(text: '00'),
-            normalbutton(text: 0),
-            normalbutton(text: '.'),
-            normalbutton(text: '=', buttonBgColor: highlightColor),
-          ],
-        ),
-      ]),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Row(
+              children: [
+                normalbutton(
+                    text: 7,
+                    buttonBgColor: lightTheme ? buttonColorLt : buttonColor,
+                    tColor: lightTheme ? Colors.black : Colors.white),
+                normalbutton(
+                    text: 8,
+                    buttonBgColor: lightTheme ? buttonColorLt : buttonColor,
+                    tColor: lightTheme ? Colors.black : Colors.white),
+                normalbutton(
+                    text: 9,
+                    buttonBgColor: lightTheme ? buttonColorLt : buttonColor,
+                    tColor: lightTheme ? Colors.black : Colors.white),
+                normalbutton(
+                    text: '×',
+                    tColor: highlightColor,
+                    buttonBgColor:
+                        lightTheme ? operatorColorLt : operatorColor),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Row(
+              children: [
+                normalbutton(
+                    text: 4,
+                    buttonBgColor: lightTheme ? buttonColorLt : buttonColor,
+                    tColor: lightTheme ? Colors.black : Colors.white),
+                normalbutton(
+                    text: 5,
+                    buttonBgColor: lightTheme ? buttonColorLt : buttonColor,
+                    tColor: lightTheme ? Colors.black : Colors.white),
+                normalbutton(
+                    text: 6,
+                    buttonBgColor: lightTheme ? buttonColorLt : buttonColor,
+                    tColor: lightTheme ? Colors.black : Colors.white),
+                normalbutton(
+                    text: '-',
+                    tColor: highlightColor,
+                    buttonBgColor:
+                        lightTheme ? operatorColorLt : operatorColor),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Row(
+              children: [
+                normalbutton(
+                    text: 1,
+                    buttonBgColor: lightTheme ? buttonColorLt : buttonColor,
+                    tColor: lightTheme ? Colors.black : Colors.white),
+                normalbutton(
+                    text: 2,
+                    buttonBgColor: lightTheme ? buttonColorLt : buttonColor,
+                    tColor: lightTheme ? Colors.black : Colors.white),
+                normalbutton(
+                    text: 3,
+                    buttonBgColor: lightTheme ? buttonColorLt : buttonColor,
+                    tColor: lightTheme ? Colors.black : Colors.white),
+                normalbutton(
+                    text: '+',
+                    tColor: highlightColor,
+                    buttonBgColor:
+                        lightTheme ? operatorColorLt : operatorColor),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Row(
+              children: [
+                normalbutton(
+                    text: '00',
+                    buttonBgColor: lightTheme ? buttonColorLt : buttonColor,
+                    tColor: lightTheme ? Colors.black : Colors.white),
+                normalbutton(
+                    text: 0,
+                    buttonBgColor: lightTheme ? buttonColorLt : buttonColor,
+                    tColor: lightTheme ? Colors.black : Colors.white),
+                normalbutton(
+                    text: '.',
+                    buttonBgColor: lightTheme ? buttonColorLt : buttonColor,
+                    tColor: lightTheme ? Colors.black : Colors.white),
+                normalbutton(
+                    text: '=',
+                    buttonBgColor: highlightColor,
+                    tColor: lightTheme ? Colors.black : Colors.white),
+              ],
+            ),
+          ),
+        ]),
+      ),
     );
   }
 
@@ -176,19 +267,20 @@ class _CalculatorAppState extends State<CalculatorApp> {
       child: Container(
         margin: const EdgeInsets.all(8),
         child: ElevatedButton(
-            onPressed: () => onButtonPressed(text),
-            style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.all(20),
-                shape: const CircleBorder(eccentricity: 0),
-                backgroundColor: buttonBgColor),
-            child: Text(
-              text.toString(),
-              style: TextStyle(
-                fontSize: 20,
-                color: tColor,
-                fontWeight: FontWeight.bold,
-              ),
-            )),
+          onPressed: () => onButtonPressed(text),
+          style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.all(25),
+              shape: const CircleBorder(eccentricity: 0),
+              backgroundColor: buttonBgColor),
+          child: Text(
+            text.toString(),
+            style: TextStyle(
+              fontSize: 20,
+              color: tColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       ),
     );
   }
