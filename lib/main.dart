@@ -240,7 +240,8 @@ class _CalculatorAppState extends State<CalculatorApp> {
                 normalbutton(
                     text: '00',
                     buttonBgColor: lightTheme ? buttonColorLt : buttonColor,
-                    tColor: lightTheme ? Colors.black : Colors.white),
+                    tColor: lightTheme ? Colors.black : Colors.white,
+                    textSize: 16),
                 normalbutton(
                     text: 0,
                     buttonBgColor: lightTheme ? buttonColorLt : buttonColor,
@@ -262,7 +263,10 @@ class _CalculatorAppState extends State<CalculatorApp> {
   }
 
   Widget normalbutton(
-      {text, buttonBgColor = buttonColor, tColor = Colors.white}) {
+      {text,
+      buttonBgColor = buttonColor,
+      tColor = Colors.white,
+      double textSize = 20}) {
     return Expanded(
       child: Container(
         margin: const EdgeInsets.all(8),
@@ -275,7 +279,7 @@ class _CalculatorAppState extends State<CalculatorApp> {
           child: Text(
             text.toString(),
             style: TextStyle(
-              fontSize: 20,
+              fontSize: textSize as double,
               color: tColor,
               fontWeight: FontWeight.bold,
             ),
