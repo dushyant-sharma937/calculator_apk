@@ -279,7 +279,7 @@ class _CalculatorAppState extends State<CalculatorApp> {
           child: Text(
             text.toString(),
             style: TextStyle(
-              fontSize: textSize as double,
+              fontSize: textSize,
               color: tColor,
               fontWeight: FontWeight.bold,
             ),
